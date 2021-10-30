@@ -1,0 +1,50 @@
+{% extends "Interface/base.html" %}
+<!--  -->
+{% block title %}{{title}}{% endblock %}
+<!--  -->
+{% block content %}
+<div>
+  <div class="container">
+    <div class="text-center">
+      <h2>
+        Welcome to Tech Fest Dps Online Competition Portal find the upcoming
+        events below
+      </h2>
+    </div>
+    <br />
+    <h3>Events</h3>
+    <ul>
+      {% for event in events %}
+      <div class="card">
+        <div class="card-header">
+          <h4>{{event.name}} | Category class {{event.categories}}</h4>
+        </div>
+        <div class="card-body">
+          <ol>
+            <p class="card-text">Starts at {{event.TimeOfEvent}} UTC</p>
+            <p class="card-text">
+              Ends at {{event.timeLimit}}hrs from Start Time UTC
+            </p>
+          </ol>
+          <br />
+          {% if event.get_time_diff >= 0 %}
+          <a href="/events/rules/{{event.id}}" class="btn btn-primary"
+            >Participate now</a
+          >
+          {% else %}
+          <button class="btn btn-primary" disabled="true">
+            This is an upcoming event
+          </button>
+          {% endif %}
+        </div>
+      </div>
+      <br /><br />
+      {% empty %}
+        <h5>No events here yet 😢</h5>
+      {% endfor %}
+    </ul>
+    <br /><br />
+    </ul>
+  </div>
+</div>
+{% endblock %}

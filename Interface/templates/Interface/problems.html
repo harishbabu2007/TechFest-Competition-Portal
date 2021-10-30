@@ -1,0 +1,41 @@
+{% extends "Interface/base.html" %}
+<!--  -->
+{% block title%}Problems{% endblock %}
+<!--  -->
+{% block content %}
+<div class="container">
+  <link rel="stylesheet" href="/static/styles/problems.css" />
+  <h1>Problems</h1>
+
+  {% for problem in problems%}
+  <div class="card">
+    <div class="card-body split-hr">
+      <h3 class="card-text">{{problem.problem.name}}</h3>
+      <div class="solved-or-not">
+        {% if problem.solved == True %}
+        <h5>
+          Solved :
+          <span><i class="fas fa-check" style="color: lightgreen"></i></span>
+        </h5>
+        {% else %}
+        <h5>
+          Solved :
+          <span><i class="fas fa-times" style="color: red"></i></span>
+        </h5>
+        {% endif %}
+      </div>
+      {% if problem.solved == True%}
+      <a href="/events/{{problem.event.id}}/problem/{{problem.problem.id}}"
+        ><button disabled="true" class="btn btn-success">Solve</button></a
+      >
+      {% else %}
+      <a
+        href="/events/{{problem.problem.event.id}}/problem/{{problem.problem.id}}"
+        ><button class="btn btn-success">Solve</button></a
+      >
+      {% endif%}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
