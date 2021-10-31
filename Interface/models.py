@@ -60,7 +60,8 @@ class Problems(models.Model):
   problemHtml = models.FileField("Problem statement in png", upload_to=upload_path, default="")
   mainFile = models.FileField("Problem main execution file", upload_to=upload_path, default="")
   userFile = models.FileField("User execution code file", upload_to=upload_path, default="")
-  test_module = models.FileField("Test cases file", upload_to=upload_path, default="")
+  test_module = models.FileField("Test cases file (txt)", upload_to=upload_path, default="")
+  expected_output = models.FileField("Expected Answer (txt)", upload_to=upload_path, default="")
 
   def __str__(self):
     string = ""
@@ -81,4 +82,7 @@ class ProblemsSolved(models.Model):
     string += str(self.solved)
 
     return string
+
+class newmodel(models.Model):
+  name = models.CharField(max_length=200)
     

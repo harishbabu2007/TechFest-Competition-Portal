@@ -8,6 +8,7 @@
     min-width: 100%;
     min-height: 600px;
     margin-bottom: 20px;
+    border-radius: 5px;
   }
   .editor-confine {
     padding: 50px;
@@ -36,12 +37,12 @@
   />
 </div>
 <div class="container-fluid editor-confine">
-  <h2>Code Editor</h2>
+  <h2 id="editorHead">Code Editor</h2>
   <div id="editor">print("hello world")</div>
   <a href="#output"
     ><button id="submit" class="btn btn-success submit_btn">Submit</button></a
   >
-  <a href="#editor"
+  <a href="#editorHead"
     ><button id="reset" class="btn btn-danger submit_btn">Reset</button></a
   >
 </div>
@@ -60,6 +61,8 @@
   editor.setTheme("ace/theme/monokai");
   editor.session.setMode("ace/mode/python");
   editor.setShowPrintMargin(false);
+  editor.session.setTabSize(2);
+  editor.session.setUseSoftTabs(true);
   editor.resize();
 
   document.getElementById("editor").style.width = "80vw";
