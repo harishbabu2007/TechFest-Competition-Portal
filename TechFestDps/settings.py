@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Interface.apps.InterfaceConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIR = (
     os.path.join(BASE_DIR, "Interface/static"),
-    os.path.join(BASE_DIR, "Interface/problem_files")
+    # os.path.join(BASE_DIR, "Interface/problem_files")
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Interface/problem_files')

@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from .models import Event, ProblemsSolved, Problems
 import os
 from django.contrib.auth.decorators import login_required
-
+from rest_framework.decorators import api_view
+from importlib.machinery import SourceFileLoader
+from rest_framework.response import Response
+from pathlib import Path
 
 # Create your views here.
 def index(request):
@@ -98,3 +101,63 @@ def solve_event_problem(request, event_id, problem_id):
   }
   
   return  render(request, "Interface/solve.html", params)
+
+
+@login_required
+@api_view(["POST", "GET"])
+def evaluate_problem(request):
+  try:
+    print(request.data.get("key"))
+  except:
+    return Response({"request": "failed"})
+
+  if request.method == "POST" and request.data.get("key") == "TechFestOC":
+    problem = Problems.objects.filter(id=request.data.get("id"))
+
+    if len(problem) == 0:
+      return Response({"request": "failed"})
+
+    problem = problem[0]
+
+    code = request.data.get("code")
+
+    this_file_path = Path(__file__).resolve().parent
+    data_path = f"problem_files\\{problem.name}\\{request.user.username}__attempt__.py"
+    path_write_user = os.path.join(this_file_path, data_path)
+
+    line_write = code.split("\n")
+
+    for i in range(len(line_write)):
+      line_write[i] += "\n"
+    
+    user_file = open(path_write_user, 'w')
+    user_file.writelines(line_write)
+    user_file.close()
+
+    try:
+      username = f"{request.user.username}__attempt__"
+      file_check_user = SourceFileLoader(username, path_write_user).load_module()
+
+      evaluator_path = f"problem_files/{problem.mainFile}"
+      evaluator_path = os.path.join(this_file_path, evaluator_path)
+      evaluator_name = problem.mainFile.name.replace(".py", "").replace(problem.name + "/", "")
+      evaluator = SourceFileLoader(evaluator_name, evaluator_path).load_module()
+
+      type_msg, eval_message = evaluator.executeProg(file_check_user)
+
+      if type_msg == False:
+        return Response({
+          "request": "error",
+          "msg": eval_message,
+        })
+
+      
+    except Exception as e:
+      return Response({
+          "request": "error",
+          "msg": str(e),
+        })
+
+    return Response({"request": "passed"})
+
+  return Response({"request": "failed"})
