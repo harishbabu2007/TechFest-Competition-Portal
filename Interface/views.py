@@ -150,8 +150,7 @@ def evaluate_problem(request):
           "request": "error",
           "msg": eval_message,
         })
-
-      
+              
     except Exception as e:
       return Response({
           "request": "error",
