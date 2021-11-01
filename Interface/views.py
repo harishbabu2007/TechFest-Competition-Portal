@@ -7,6 +7,7 @@ from importlib.machinery import SourceFileLoader
 from rest_framework.response import Response
 from pathlib import Path
 
+
 # Create your views here.
 def index(request):
   events_t = Event.objects.all()
@@ -101,7 +102,6 @@ def solve_event_problem(request, event_id, problem_id):
   }
   
   return  render(request, "Interface/solve.html", params)
-
 
 @login_required
 @api_view(["POST", "GET"])

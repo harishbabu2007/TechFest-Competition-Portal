@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Interface.apps.InterfaceConfig',
-    'rest_framework'
+    'rest_framework',
+    # 'wrapt_timeout_decorator',
 ]
 
 MIDDLEWARE = [

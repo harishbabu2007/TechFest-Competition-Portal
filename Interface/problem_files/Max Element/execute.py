@@ -34,7 +34,8 @@ def executeProg(func):
     for i in range(len(output)):
       output[i] = str(output[i]) + "\n"
 
-    output_file = open("output.txt", "w")
+    output_path = os.path.join(this_file_path, "output.txt")
+    output_file = open(output_path, "w")
     output_file.writelines(output)
     output_file.close()
 
@@ -43,7 +44,8 @@ def executeProg(func):
   except Exception as e:
     return False, f"Error\n {e}"
 
+
 # file_path_user = os.path.join(this_file_path, "user.py")
 # file = SourceFileLoader("user", file_path_user).load_module()
-# out = executeProg(file.MaxElement)
+# out = executeProg(file)
 # print(out)

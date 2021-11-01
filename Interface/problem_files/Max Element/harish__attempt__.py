@@ -6,4 +6,7 @@ def MaxElement(scores):
   max_value = 0
   # Write your code in this funtion
 
-  return max_value
+  return max_valuea
+  
+  class :a
+  

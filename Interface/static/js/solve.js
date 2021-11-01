@@ -37,6 +37,7 @@ submit_btn.addEventListener("click", async () => {
   await fetch(url, options)
     .then((res) => res.json())
     .then((d) => {
+      console.log(d);
       if (d?.request === "error") {
         output_msg.style.color = "red";
         output_msg.innerText = d?.msg;
