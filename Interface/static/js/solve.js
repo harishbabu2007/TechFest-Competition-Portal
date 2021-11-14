@@ -37,11 +37,17 @@ submit_btn.addEventListener("click", async () => {
   await fetch(url, options)
     .then((res) => res.json())
     .then((d) => {
-      console.log(d);
+      console.log();
       if (d?.request === "error") {
         output_msg.style.color = "red";
-        output_msg.innerText = d?.msg;
+      } else if (d?.request === "Wrong") {
+        output_msg.style.color = "coral";
+      } else if (d?.request === "passed") {
+        output_msg.style.color = "green";
+        submit_btn.style.display = "none";
       }
+
+      output_msg.innerText = d?.msg;
     });
 });
 

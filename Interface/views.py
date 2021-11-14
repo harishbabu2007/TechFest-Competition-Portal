@@ -135,15 +135,39 @@ def evaluate_problem(request):
     user_file.close()
 
     try:
-      username = f"{request.user.username}__attempt__"
-      file_check_user = SourceFileLoader(username, path_write_user).load_module()
+      user_file_name = f"{request.user.username}__attempt__"
+      file_check_user = SourceFileLoader(user_file_name, path_write_user).load_module()
 
       evaluator_path = f"problem_files/{problem.mainFile}"
       evaluator_path = os.path.join(this_file_path, evaluator_path)
       evaluator_name = problem.mainFile.name.replace(".py", "").replace(problem.name + "/", "")
       evaluator = SourceFileLoader(evaluator_name, evaluator_path).load_module()
 
-      type_msg, eval_message = evaluator.executeProg(file_check_user)
+      out_file_name = request.user.username + "__out__"
+      type_msg, eval_message = evaluator.executeProg(file_check_user, out_file_name)
+
+      answers_file_name =  problem.expected_output.name
+      answers_file_path = f"problem_files/{answers_file_name}"
+      answers_file_path = os.path.join(this_file_path, answers_file_path)
+      answers_file = open(answers_file_path, "r")
+
+      out_file_name = f"problem_files/{problem.name}/{out_file_name}.txt"
+      out_file_path = os.path.join(this_file_path, out_file_name)
+      user_out_file = open(out_file_path, "r")
+
+      user_answer = user_out_file.readlines()
+      answer = answers_file.readlines()
+
+      if user_answer != answer:
+        return Response({
+          "request" : "Wrong",
+          "msg":
+          """
+          Testcases failed.
+          Your code couldn't generate the desired outputs.
+          Refer the problem again and try writing the code again.
+          """
+        })
 
       if type_msg == False:
         return Response({
@@ -157,6 +181,14 @@ def evaluate_problem(request):
           "msg": str(e),
         })
 
-    return Response({"request": "passed"})
+    return Response({
+      "request": "passed",
+      "msg" : 
+      """
+      Success
+      You have solved this problem.
+      You can move to the next problem.
+      """
+    })
 
-  return Response({"request": "failed"})
+  return Response({"request": "failed", "msg" : "server error"})

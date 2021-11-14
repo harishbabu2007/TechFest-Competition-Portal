@@ -53,7 +53,6 @@ class Event(models.Model):
 class Problems(models.Model):
   name = models.CharField(max_length=200)
   event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="prob_event")
-  timeLimit = models.IntegerField(default=0)
 
   def upload_path(self, filename):
     return f'{self.name}/{filename}' 
