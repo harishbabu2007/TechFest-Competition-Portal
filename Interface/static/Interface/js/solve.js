@@ -3,6 +3,12 @@ const editor = ace.edit("editor");
 const output_msg = document.getElementById("output-msg");
 const submit_btn = document.getElementById("submit");
 const reset_btn = document.getElementById("reset");
+const timer = document.getElementById("stopwatch");
+
+let hr = 0;
+let min = 0;
+let sec = 0;
+let stoptime = true;
 
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/python");
@@ -61,3 +67,39 @@ reset_btn.addEventListener("click", () => {
 editor.session.setValue(
   document.getElementById("userCode").getAttribute("data-json")
 );
+
+const timerCycle = () => {
+  if (stoptime == false) {
+    sec = parseInt(sec);
+    min = parseInt(min);
+    hr = parseInt(hr);
+
+    sec = sec + 1;
+
+    if (sec == 60) {
+      min = min + 1;
+      sec = 0;
+    }
+    if (min == 60) {
+      hr = hr + 1;
+      min = 0;
+      sec = 0;
+    }
+
+    if (sec < 10 || sec == 0) {
+      sec = "0" + sec;
+    }
+    if (min < 10 || min == 0) {
+      min = "0" + min;
+    }
+    if (hr < 10 || hr == 0) {
+      hr = "0" + hr;
+    }
+
+    timer.innerHTML = hr + ":" + min + ":" + sec;
+
+    setTimeout("timerCycle()", 1);
+  }
+};
+
+timerCycle();

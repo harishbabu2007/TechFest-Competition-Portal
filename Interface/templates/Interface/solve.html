@@ -26,11 +26,15 @@
     border: 0.5px solid gray;
     padding: 20px;
     border-radius: 5px;
-    margin-bottom: 200px;
+    margin-bottom: 50px;
   }
 </style>
 <div id="id" data-json="{{problem.id}}"></div>
 <div id="userCode" style="display: none" data-json="{{userFile}}"></div>
+<div class="container text-center">
+  <h2>Time Passed</h2>
+  <h2 id="stopwatch">00:00:00</h2>
+</div>
 <div id="problem" style="margin-bottom: 50px">
   <img
     style="height: auto; max-width: 95vw; object-fit: contain"
@@ -40,7 +44,7 @@
 <div class="container-fluid editor-confine">
   <h2 id="editorHead">Code Editor</h2>
   <div id="editor"></div>
-  <a href="#output"
+  <a href="#output_panel"
     ><button id="submit" class="btn btn-success submit_btn">Submit</button></a
   >
   <a href="#editorHead"
@@ -52,6 +56,15 @@
   <div class="output" id="output">
     <p id="output-msg"></p>
   </div>
+
+  <div class="container" id="output_panel">
+    <a href="/events/problems/{{event_id}}"
+      ><button id="next_prob" class="btn btn-success mb-5 w-100">
+        Go back to problem set
+      </button></a
+    >
+    <h2 class="text-center">Happy coding!!</h2>
+  </div>
 </div>
 {% csrf_token %}
 
@@ -60,6 +73,10 @@
   type="text/javascript"
   charset="utf-8"
 ></script>
-<script src="/static/js/solve.js"></script>
+<script
+  type="text/javascript"
+  charset="utf-8"
+  src="/static/Interface/js/solve.js"
+></script>
 
 {% endblock %}

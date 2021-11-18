@@ -24,11 +24,7 @@
         </h5>
         {% endif %}
       </div>
-      {% if problem.solved == True%}
-      <a href="/events/{{problem.event.id}}/problem/{{problem.problem.id}}"
-        ><button disabled="true" class="btn btn-success">Solve</button></a
-      >
-      {% else %}
+      {% if problem.solved != True%}
       <a
         href="/events/{{problem.problem.event.id}}/problem/{{problem.problem.id}}"
         ><button class="btn btn-success">Solve</button></a

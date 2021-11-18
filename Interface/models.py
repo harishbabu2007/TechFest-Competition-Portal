@@ -15,7 +15,7 @@ class Event(models.Model):
   name = models.CharField(max_length=200)
   categories = models.CharField(max_length=100, choices=EventCategories)
   TimeOfEvent = models.DateTimeField("Date and Time of Event only in UTC (IST not supported for server)", auto_now_add=False)
-  timeLimit = models.IntegerField("Time Limit (hrs only)")
+  timeLimit = models.FloatField("Time Limit (hrs only)", default=0.0)
 
 
   def __str__(self):
@@ -82,3 +82,14 @@ class ProblemsSolved(models.Model):
     string += str(self.solved)
 
     return string
+
+
+class Leaderboard(models.Model):
+  problem = models.ForeignKey(Problems, on_delete=models.CASCADE, related_name="problem_leaderboard")
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_leaderboard")
+  problems_solved = models.IntegerField("solved problems", default=0)
+  seconds_taken = models.FloatField("seconds taken", default=0.0)
+
+  def __str__(self):
+    return self.user.username + " " + self.problem.name
+

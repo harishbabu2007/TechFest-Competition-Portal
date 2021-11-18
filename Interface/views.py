@@ -93,11 +93,18 @@ def solve_event_problem(request, event_id, problem_id):
 
   event_problem = event_problem[0]
 
+  solved = request.user.solved_user.filter(problem__pk=event_problem.id)
+  solved = solved[0]
+
+  if solved.solved == True :
+    return redirect("interface-index")
+
   absPath = os.path.abspath(f"Interface/problem_files/{event_problem.userFile}")
   userFile = open(absPath, 'r')
 
   params = { 
     'problem': event_problem,
+    'event_id': event_check[0].id,
     'userFile': userFile.read()
   }
   
@@ -118,6 +125,16 @@ def evaluate_problem(request):
       return Response({"request": "failed"})
 
     problem = problem[0]
+
+    if problem.event.can_participate() == False:
+      return Response({
+        "request": "error",
+        "msg": 
+        """
+        TIMES UP!!!
+        time is up you can't submit the problems anymore
+        """
+      })
 
     code = request.data.get("code")
 
@@ -181,6 +198,11 @@ def evaluate_problem(request):
           "msg": str(e),
         })
 
+    solved = request.user.solved_user.filter(problem__pk=problem.id)
+    solved = solved[0]
+    solved.solved = True
+    solved.save()
+
     return Response({
       "request": "passed",
       "msg" : 
@@ -192,3 +214,7 @@ def evaluate_problem(request):
     })
 
   return Response({"request": "failed", "msg" : "server error"})
+
+
+def leaderboard(request):
+  return render(request, "Interface/leaderboard.html")

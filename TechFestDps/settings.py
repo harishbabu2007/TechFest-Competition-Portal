@@ -122,6 +122,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+# python manage.py collectstatic --noinput --clear
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'

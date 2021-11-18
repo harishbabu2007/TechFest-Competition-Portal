@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Event)
 admin.site.register(Problems)
 admin.site.register(ProblemsSolved)
+admin.site.register(Leaderboard)
