@@ -1,0 +1,30 @@
+{% extends "Interface/base.html" %}
+<!--  -->
+{% block title%}Player Standing{% endblock %}
+<!--  -->
+{% block content %}
+<div class="container">
+  <h1>Standings for {{event.name}}</h1>
+  <br />
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Player Name</th>
+        <th scope="col">Problems solved</th>
+        <th scope="col">Total Time taken (sec)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for place in standings %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{place.user.username}}</td>
+        <td>{{place.problems_solved}}</td>
+        <td class="time">{{place.seconds_taken}} sec</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

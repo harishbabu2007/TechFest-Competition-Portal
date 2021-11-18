@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Event, ProblemsSolved, Problems
+from .models import Event, ProblemsSolved, Problems, Leaderboard
 import os
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
@@ -19,7 +19,6 @@ def index(request):
 
 
   for i in range(len(events)):
-    print(events[i].get_time_diff())
     if not events[i].can_participate() and events[i].get_time_diff() > 0:
       del events[i]
          
@@ -68,6 +67,16 @@ def problems(request, id):
       data.save()
 
     problems_show = request.user.solved_user.all()
+
+  playerBoard = Leaderboard.objects.filter(user=request.user)
+  if len(playerBoard) == 0:
+    data = Leaderboard(
+      event = event[0],
+      user = request.user,
+      problems_solved = 0,
+      seconds_taken = 0
+    )
+    data.save()
 
   params = {
     "problems" : problems_show
@@ -203,6 +212,12 @@ def evaluate_problem(request):
     solved.solved = True
     solved.save()
 
+    playerBoard = Leaderboard.objects.filter(user=request.user)
+    playerBoard = playerBoard[0]
+    playerBoard.problems_solved += 1
+    playerBoard.seconds_taken += float(request.data.get("timeTaken"))
+    playerBoard.save()
+
     return Response({
       "request": "passed",
       "msg" : 
@@ -217,4 +232,33 @@ def evaluate_problem(request):
 
 
 def leaderboard(request):
-  return render(request, "Interface/leaderboard.html")
+  events = Event.objects.all()
+
+  params = {
+    "events" : events,
+  }
+
+  return render(request, "Interface/leaderboard.html", params)
+
+
+def leaderboardStanding(request, id):
+  def sortStandings(objectDB):
+    return objectDB.problems_solved / objectDB.seconds_taken
+
+  standings = Leaderboard.objects.filter(event__id=id)
+  event = Event.objects.filter(id=id)
+
+  standings = list(standings)
+  standings.sort(key=sortStandings, reverse=True)
+
+  if len(event) == 0:
+    return redirect("interface-leaderboard") 
+  
+  event = event[0]
+
+  params = {
+    "standings" : standings,
+    "event" : event
+  }
+
+  return render(request, "Interface/standing.html", params)

@@ -4,6 +4,17 @@
 <!--  -->
 {% block content %}
 <div class="container">
+  <link rel="stylesheet" href="/static/styles/problems.css" />
   <h1>Leaderboard</h1>
+  {% for event in events %}
+  <div class="card">
+    <div class="card-body split-hr">
+      <h3 class="card-text">{{event.name}}</h3>
+      <a href="/leaderboard/event/{{event.id}}"
+        ><button class="btn btn-primary">View player standing</button></a
+      >
+    </div>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}

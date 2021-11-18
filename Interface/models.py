@@ -85,11 +85,11 @@ class ProblemsSolved(models.Model):
 
 
 class Leaderboard(models.Model):
-  problem = models.ForeignKey(Problems, on_delete=models.CASCADE, related_name="problem_leaderboard")
+  event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_board", default="")
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_leaderboard")
   problems_solved = models.IntegerField("solved problems", default=0)
   seconds_taken = models.FloatField("seconds taken", default=0.0)
 
   def __str__(self):
-    return self.user.username + " " + self.problem.name
-
+    rv = f"{self.user.username}, Solved: {self.problems_solved}, Time Taken: {self.seconds_taken}"
+    return rv

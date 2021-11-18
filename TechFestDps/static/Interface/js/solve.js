@@ -5,10 +5,8 @@ const submit_btn = document.getElementById("submit");
 const reset_btn = document.getElementById("reset");
 const timer = document.getElementById("stopwatch");
 
-let hr = 0;
-let min = 0;
-let sec = 0;
-let stoptime = true;
+let time = 0,
+  interval;
 
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/python");
@@ -28,6 +26,7 @@ submit_btn.addEventListener("click", async () => {
     id: id,
     code: editor.getValue(),
     key: "TechFestOC",
+    timeTaken: time,
   };
 
   let options = {
@@ -51,6 +50,7 @@ submit_btn.addEventListener("click", async () => {
       } else if (d?.request === "passed") {
         output_msg.style.color = "green";
         submit_btn.style.display = "none";
+        stopTimer();
       }
 
       output_msg.innerText = d?.msg;
@@ -68,38 +68,47 @@ editor.session.setValue(
   document.getElementById("userCode").getAttribute("data-json")
 );
 
-const timerCycle = () => {
-  if (stoptime == false) {
-    sec = parseInt(sec);
-    min = parseInt(min);
-    hr = parseInt(hr);
+const showTime = () => {
+  time = parseInt(localStorage.getItem("time"));
+  time += 1;
+  timer.innerHTML = toHHMMSS(time);
+  localStorage.setItem("time", time);
+};
 
-    sec = sec + 1;
+const start = () => {
+  let timeStorage = localStorage.getItem("time");
+  if (timeStorage == null) {
+    localStorage.setItem("time", time);
+  }
+  interval = setInterval(showTime, 1000);
+};
 
-    if (sec == 60) {
-      min = min + 1;
-      sec = 0;
-    }
-    if (min == 60) {
-      hr = hr + 1;
-      min = 0;
-      sec = 0;
-    }
+const stopTimer = () => {
+  clearInterval(interval);
+  interval = null;
+  time = 0;
+  timer.innerHTML = toHHMMSS(time);
+  localStorage.setItem("time", time);
+};
 
-    if (sec < 10 || sec == 0) {
-      sec = "0" + sec;
-    }
-    if (min < 10 || min == 0) {
-      min = "0" + min;
-    }
-    if (hr < 10 || hr == 0) {
-      hr = "0" + hr;
-    }
+const toHHMMSS = (time) => {
+  let hours = Math.floor(time / 3600);
+  let minutes = Math.floor((time - hours * 3600) / 60);
+  let seconds = time - hours * 3600 - minutes * 60;
 
-    timer.innerHTML = hr + ":" + min + ":" + sec;
+  hours = `${hours}`.padStart(2, "0");
+  minutes = `${minutes}`.padStart(2, "0");
+  seconds = `${seconds}`.padStart(2, "0");
 
-    setTimeout("timerCycle()", 1000);
+  return hours + ":" + minutes + ":" + seconds;
+};
+
+const setTimeCounter = () => {
+  const timeStorage = localStorage.getItem("time");
+  if (timeStorage != null) {
+    timer.innerHTML = toHHMMSS(parseInt(timeStorage));
   }
 };
 
-timerCycle();
+setTimeCounter();
+start();
