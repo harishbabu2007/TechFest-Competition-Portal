@@ -5,7 +5,8 @@
 {% block content %}
 <div class="container">
   <link rel="stylesheet" href="/static/styles/problems.css" />
-  <h1>Problems</h1>
+  <h1>Problem Set for {{event.name}}</h1>
+  <br />
 
   {% for problem in problems%}
   <div class="card">

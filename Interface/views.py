@@ -17,11 +17,9 @@ def index(request):
   for i in range(len(events_t)):
     events.append(events_t[i])
 
-
   for i in range(len(events)):
     if not events[i].can_participate() and events[i].get_time_diff() > 0:
       del events[i]
-         
 
   params = {
     'title' : "Technex Dps",
@@ -79,7 +77,8 @@ def problems(request, id):
     data.save()
 
   params = {
-    "problems" : problems_show
+    "problems" : problems_show,
+    'event' : event[0],
   }
 
   return render(request, "Interface/problems.html", params)
