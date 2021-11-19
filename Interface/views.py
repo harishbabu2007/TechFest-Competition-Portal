@@ -24,7 +24,7 @@ def index(request):
          
 
   params = {
-    'title' : "TechFest Dps",
+    'title' : "Technex Dps",
     'events' : events,
   }
 
@@ -243,6 +243,9 @@ def leaderboard(request):
 
 def leaderboardStanding(request, id):
   def sortStandings(objectDB):
+    if objectDB.seconds_taken == 0:
+      return objectDB.problems_solved / 1
+
     return objectDB.problems_solved / objectDB.seconds_taken
 
   standings = Leaderboard.objects.filter(event__id=id)

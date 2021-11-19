@@ -2,8 +2,8 @@
 ## Complete the function below and the return the answer
 
 
-def MaxElement(a):
+def MaxElement(scores):
   max_value = 0
   # Write your code in this funtion
 
-  return max(a)
+  return max(scores)
