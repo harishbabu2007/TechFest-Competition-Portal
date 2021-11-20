@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from importlib.machinery import SourceFileLoader
 from rest_framework.response import Response
 from pathlib import Path
+import time
 
 
 # Create your views here.
@@ -59,6 +60,8 @@ def problems(request, id):
 
   problems_event = event[0].prob_event.all()
 
+  print(problems_show, problems_event)
+
   if len(problems_show) != len(problems_event):
     for prob in problems_event:
       data = ProblemsSolved(problem=prob, user=request.user, solved=False,)
@@ -72,7 +75,8 @@ def problems(request, id):
       event = event[0],
       user = request.user,
       problems_solved = 0,
-      seconds_taken = 0
+      seconds_taken = 0,
+      executionTime = 0,
     )
     data.save()
 
@@ -159,6 +163,8 @@ def evaluate_problem(request):
     user_file.writelines(line_write)
     user_file.close()
 
+    total_time = 0
+
     try:
       user_file_name = f"{request.user.username}__attempt__"
       file_check_user = SourceFileLoader(user_file_name, path_write_user).load_module()
@@ -168,8 +174,10 @@ def evaluate_problem(request):
       evaluator_name = problem.mainFile.name.replace(".py", "").replace(problem.name + "/", "")
       evaluator = SourceFileLoader(evaluator_name, evaluator_path).load_module()
 
+      total_time = time.time()
       out_file_name = request.user.username + "__out__"
       type_msg, eval_message = evaluator.executeProg(file_check_user, out_file_name)
+      total_time = time.time() - total_time
 
       answers_file_name =  problem.expected_output.name
       answers_file_path = f"problem_files/{answers_file_name}"
@@ -215,6 +223,7 @@ def evaluate_problem(request):
     playerBoard = playerBoard[0]
     playerBoard.problems_solved += 1
     playerBoard.seconds_taken += float(request.data.get("timeTaken"))
+    playerBoard.executionTime += total_time
     playerBoard.save()
 
     return Response({
@@ -245,7 +254,7 @@ def leaderboardStanding(request, id):
     if objectDB.seconds_taken == 0:
       return objectDB.problems_solved / 1
 
-    return objectDB.problems_solved / objectDB.seconds_taken
+    return objectDB.problems_solved / (objectDB.seconds_taken + objectDB.executionTime)
 
   standings = Leaderboard.objects.filter(event__id=id)
   event = Event.objects.filter(id=id)
