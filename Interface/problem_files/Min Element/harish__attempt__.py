@@ -5,5 +5,6 @@
 def MinElement(scores):
   min_value = 0
   # Write your code in this funtion
-
-  return min(scores)
+  
+  
+  return max(scores)

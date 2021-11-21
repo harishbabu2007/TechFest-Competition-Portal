@@ -2,8 +2,8 @@
 ## Complete the function below and the return the answer
 
 
-def MaxElement(scores):
-  max_value = 0
+def MinElement(scores):
+  min_value = 0
   # Write your code in this funtion
 
-  return max(scores)
+  return min(scores)

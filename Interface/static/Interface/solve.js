@@ -19,7 +19,7 @@ document.getElementById("editor").style.fontSize = "20px";
 
 submit_btn.addEventListener("click", async () => {
   editor.session.setValue(editor.getValue());
-  let url = "http://localhost:8000/interface/requests/evaluate";
+  let url = window.location.origin + "/interface/requests/evaluate";
   let csrftoken = Cookies.get("csrftoken");
 
   let data = {
