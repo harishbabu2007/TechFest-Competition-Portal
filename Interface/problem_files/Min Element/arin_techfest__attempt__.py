@@ -3,7 +3,7 @@
 
 
 def MinElement(scores):
-  min_value = 0
+  min_value = min(scores)
   # Write your code in this funtion
 
-  return min(scores)
+  return min_value

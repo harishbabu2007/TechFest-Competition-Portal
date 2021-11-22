@@ -3,10 +3,16 @@
 {% block title%}Event Rules{% endblock %}
 <!--  -->
 {% block content %}
+<style>
+  img {
+    object-fit: contain;
+    width: 100%;
+  }
+</style>
 <div class="container">
-  <h1>Rules for {{name}}</h1>
+  <img src="/static/media/Rules-for-Fast-Code.png" alt="rules" />
   <a href="/events/problems/{{id}}"
-    ><button class="btn btn-success">Start Now</button></a
-  >
+    ><button class="btn btn-success w-100">Start Now</button></a
+  ><br /><br />
 </div>
 {% endblock %}

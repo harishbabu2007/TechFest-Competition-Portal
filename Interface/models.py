@@ -3,14 +3,15 @@ from django.utils.timezone import utc
 from django.contrib.auth.models import User
 import datetime
 
-
+## Event Categories
 EventCategories = [
   ("7-8", "Class 7 to 8"),
   ("9-10", "Class 9 to 10"),
   ("11-12", "Class 11 to 12"),
+  ("A", "Class 7 to 12"),
 ]
 
-# Create your models here.
+# Events Model.
 class Event(models.Model):
   name = models.CharField(max_length=200)
   categories = models.CharField(max_length=100, choices=EventCategories)
@@ -50,6 +51,7 @@ class Event(models.Model):
     return False
 
 
+## Problems model
 class Problems(models.Model):
   name = models.CharField(max_length=200)
   event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="prob_event")
@@ -70,6 +72,8 @@ class Problems(models.Model):
 
     return string
 
+
+## Problem Sovled Tracker model
 class ProblemsSolved(models.Model):
   problem = models.ForeignKey(Problems, on_delete=models.CASCADE, related_name="problem_solved")
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solved_user')
@@ -84,6 +88,8 @@ class ProblemsSolved(models.Model):
     return string
 
 
+
+## Event Leaderboard
 class Leaderboard(models.Model):
   event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_board", default="")
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_leaderboard")

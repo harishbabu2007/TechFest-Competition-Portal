@@ -1,3 +1,6 @@
+## Written by harish - lead dev, OC member
+## Not for distibution
+## Main Interface views
 from django.shortcuts import render, redirect
 from .models import Event, ProblemsSolved, Problems, Leaderboard
 import os
@@ -9,7 +12,7 @@ from pathlib import Path
 import time
 
 
-# Create your views here.
+## index page
 def index(request):
   events_t = Event.objects.all()
 
@@ -29,6 +32,8 @@ def index(request):
 
   return render(request, "Interface\index.html", params)
 
+
+## Rules Page
 @login_required
 def rules(request, id):
   event = Event.objects.filter(id=id)
@@ -46,6 +51,8 @@ def rules(request, id):
 
   return render(request, "Interface/rules.html", params)
 
+
+## Problem Set Page
 @login_required
 def problems(request, id):
   event = Event.objects.filter(id=id)
@@ -59,8 +66,6 @@ def problems(request, id):
   problems_show = request.user.solved_user.all()
 
   problems_event = event[0].prob_event.all()
-
-  print(problems_show, problems_event)
 
   if len(problems_show) != len(problems_event):
     for prob in problems_event:
@@ -87,6 +92,8 @@ def problems(request, id):
   return render(request, "Interface/problems.html", params)
 
 
+
+## Problem Solve Page
 @login_required 
 def solve_event_problem(request, event_id, problem_id):
   event_check = Event.objects.filter(id=event_id)
@@ -121,6 +128,8 @@ def solve_event_problem(request, event_id, problem_id):
   
   return  render(request, "Interface/solve.html", params)
 
+
+## Code Evaluation server API
 @login_required
 @api_view(["POST", "GET"])
 def evaluate_problem(request):
@@ -233,6 +242,8 @@ def evaluate_problem(request):
   return Response({"request": "failed", "msg" : "server error"})
 
 
+
+## Leaderboard Page
 def leaderboard(request):
   events = Event.objects.all()
 
@@ -243,6 +254,8 @@ def leaderboard(request):
   return render(request, "Interface/leaderboard.html", params)
 
 
+
+## Leaderboard Standing
 def leaderboardStanding(request, id):
   def sortStandings(objectDB):
     if objectDB.seconds_taken == 0:
