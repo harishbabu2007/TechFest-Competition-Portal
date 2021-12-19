@@ -5,10 +5,11 @@ import datetime
 
 ## Event Categories
 EventCategories = [
-  ("7-8", "Class 7 to 8"),
-  ("9-10", "Class 9 to 10"),
-  ("11-12", "Class 11 to 12"),
-  ("A", "Class 7 to 12"),
+  ("Class 7 to 8", "Class 7 to 8"),
+  ("Class 9 to 10", "Class 9 to 10"),
+  ("Class 11 to 12", "Class 11 to 12"),
+  ("Class 7 to 12", "Class 7 to 12"),
+  ("General", "General"),
 ]
 
 # Events Model.
