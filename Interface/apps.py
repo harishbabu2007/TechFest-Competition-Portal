@@ -1,3 +1,6 @@
+## Written by harish - lead dev, OC member
+## Not for distibution
+
 from django.apps import AppConfig
 
 

@@ -2,8 +2,8 @@
 ## Complete the function below and the return the answer
 
 
-def MaxElement(scores):
-  max_value = 0
+def LongestChain(numbers):
+  chain_len = 0
   # Write your code in this funtion
 
-  return max(scores)
+  return chain_len

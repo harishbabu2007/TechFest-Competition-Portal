@@ -9,7 +9,6 @@ from rest_framework.decorators import api_view
 from importlib.machinery import SourceFileLoader
 from rest_framework.response import Response
 from pathlib import Path
-import time
 
 
 ## index page
@@ -26,7 +25,7 @@ def index(request):
       del events[i]
 
   params = {
-    'title' : "Technex Dps",
+    'title' : "Dps TechFest 2022",
     'events' : events,
   }
 
@@ -52,7 +51,7 @@ def rules(request, id):
   return render(request, "Interface/rules.html", params)
 
 
-## Problem Set Page
+## ProblemSet Page
 @login_required
 def problems(request, id):
   event = Event.objects.filter(id=id)
@@ -159,7 +158,7 @@ def evaluate_problem(request):
     code = request.data.get("code")
 
     this_file_path = Path(__file__).resolve().parent
-    data_path = f"problem_files\\{problem.name}\\{request.user.username}__attempt__.py"
+    data_path = f"problem_files\\{problem.name}\\attempts\\{request.user.username}__attempt__.py"
     path_write_user = os.path.join(this_file_path, data_path)
 
     line_write = code.split("\n")
@@ -188,7 +187,7 @@ def evaluate_problem(request):
       answers_file_path = os.path.join(this_file_path, answers_file_path)
       answers_file = open(answers_file_path, "r")
 
-      out_file_name = f"problem_files/{problem.name}/{out_file_name}.txt"
+      out_file_name = f"problem_files/{problem.name}/outputs/{out_file_name}.txt"
       out_file_path = os.path.join(this_file_path, out_file_name)
       user_out_file = open(out_file_path, "r")
 

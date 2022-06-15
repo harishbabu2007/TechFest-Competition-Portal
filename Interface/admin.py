@@ -1,3 +1,6 @@
+## Written by harish - lead dev, OC member
+## Not for distibution
+
 from django.contrib import admin
 from .models import *
 

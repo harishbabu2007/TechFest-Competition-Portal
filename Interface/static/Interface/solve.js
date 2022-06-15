@@ -1,3 +1,6 @@
+// Written by harish - lead dev, OC member
+// Not for distibution
+
 const id = document.getElementById("id").getAttribute("data-json");
 const editor = ace.edit("editor");
 const output_msg = document.getElementById("output-msg");

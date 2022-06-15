@@ -6,4 +6,4 @@ def MaxElement(scores):
   max_value = 0
   # Write your code in this funtion
 
-  return max(scores)
+  return max_value

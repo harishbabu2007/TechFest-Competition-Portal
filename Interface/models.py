@@ -1,3 +1,7 @@
+## Written by harish - lead dev, OC member
+## Not for distibution
+
+
 from django.db import models
 from django.utils.timezone import utc
 from django.contrib.auth.models import User

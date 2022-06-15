@@ -34,7 +34,7 @@ def executeProg(func, out_name):
     for i in range(len(output)):
       output[i] = str(output[i]) + "\n"
 
-    output_path = os.path.join(this_file_path, f"{out_name}.txt")
+    output_path = os.path.join(this_file_path, f"./outputs/{out_name}.txt")
     output_file = open(output_path, "w")
     output_file.writelines(output)
     output_file.close()

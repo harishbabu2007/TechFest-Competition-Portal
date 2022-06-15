@@ -1,4 +1,7 @@
-from django.conf.urls import url
+## Written by harish - lead dev, OC member
+## Not for distibution
+
+
 from .views import index, rules, problems, solve_event_problem, evaluate_problem, leaderboard, leaderboardStanding
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
