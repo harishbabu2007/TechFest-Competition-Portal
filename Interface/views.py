@@ -27,6 +27,7 @@ def index(request):
   params = {
     'title' : "Dps TechFest 2022",
     'events' : events,
+    'user': request.user,
   }
 
   return render(request, "Interface\index.html", params)
@@ -46,6 +47,7 @@ def rules(request, id):
   params = {
     "id" : id,
     "name" : event[0].name,
+    'user': request.user,
   }
 
   return render(request, "Interface/rules.html", params)
@@ -86,6 +88,7 @@ def problems(request, id):
   params = {
     "problems" : problems_show,
     'event' : event[0],
+    'user': request.user,
   }
 
   return render(request, "Interface/problems.html", params)
@@ -122,7 +125,8 @@ def solve_event_problem(request, event_id, problem_id):
   params = { 
     'problem': event_problem,
     'event_id': event_check[0].id,
-    'userFile': userFile.read()
+    'userFile': userFile.read(),
+    'user': request.user,
   }
   
   return  render(request, "Interface/solve.html", params)
@@ -248,6 +252,7 @@ def leaderboard(request):
 
   params = {
     "events" : events,
+    'user': request.user,
   }
 
   return render(request, "Interface/leaderboard.html", params)
@@ -275,7 +280,8 @@ def leaderboardStanding(request, id):
 
   params = {
     "standings" : standings,
-    "event" : event
+    "event" : event,
+    'user': request.user,
   }
 
   return render(request, "Interface/standing.html", params)

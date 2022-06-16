@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Interface.apps.InterfaceConfig',
     'rest_framework',
-    # 'wrapt_timeout_decorator',
+    'crispy_forms',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,8 @@ MEDIA_URL = '/media/problems/statements/events/python/techfest/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/" 
+
+LOGIN_URL = "/login"

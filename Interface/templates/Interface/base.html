@@ -52,6 +52,16 @@
               >
             </li>
           </ul>
+          <div class="d-flex">
+            {%if user.is_authenticated %}
+            <button style="margin-right: 10px" class="btn btn-dark">
+              Welcome {{user.username}}
+            </button>
+            <a href="/logout" class="btn btn-warning">Logout</a>
+            {%else%}
+            <a href="/login" class="btn btn-warning">Login</a>
+            {%endif%}
+          </div>
         </div>
       </div>
     </nav>
